@@ -38,20 +38,28 @@ if %errorlevel% neq 0 (
 echo Building GUI application...
 go build -o mark-master-sheet-gui.exe cmd/gui/main.go
 if %errorlevel% neq 0 (
-    echo Error: GUI build failed
-    pause
-    exit /b 1
+    echo Warning: GUI build failed - this may be due to missing OpenGL/CGO dependencies
+    echo The CLI version has been built successfully and is fully functional
+    echo.
+    echo To build the GUI version, you may need to:
+    echo 1. Install a C compiler (like TDM-GCC or MinGW-w64)
+    echo 2. Set CGO_ENABLED=1
+    echo 3. Install OpenGL development libraries
+    echo.
+    echo For now, you can use the CLI version: mark-master-sheet.exe
+) else (
+    echo GUI Executable: mark-master-sheet-gui.exe
 )
 
-echo Build completed successfully!
+echo.
+echo CLI build completed successfully!
 echo CLI Executable: mark-master-sheet.exe
-echo GUI Executable: mark-master-sheet-gui.exe
 echo.
 echo Usage:
 echo   mark-master-sheet.exe                    # CLI: Run with default config
 echo   mark-master-sheet.exe -dry-run           # CLI: Test run without changes
 echo   mark-master-sheet.exe -stats             # CLI: Show statistics
 echo   mark-master-sheet.exe -config custom.toml # CLI: Use custom config
-echo   mark-master-sheet-gui.exe                # GUI: Launch graphical interface
+echo   mark-master-sheet-gui.exe                # GUI: Launch graphical interface (if built)
 echo.
 pause

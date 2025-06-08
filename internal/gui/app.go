@@ -5,7 +5,6 @@ package gui
 import (
 	"context"
 	"fmt"
-	"log"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -15,7 +14,6 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
-	""
 	"fyne.io/fyne/v2/widget"
 
 	"mark-master-sheet/internal/config"

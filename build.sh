@@ -35,18 +35,27 @@ fi
 echo "Building GUI application..."
 go build -o mark-master-sheet-gui cmd/gui/main.go
 if [ $? -ne 0 ]; then
-    echo "Error: GUI build failed"
-    exit 1
+    echo "Warning: GUI build failed - this may be due to missing OpenGL/CGO dependencies"
+    echo "The CLI version has been built successfully and is fully functional"
+    echo ""
+    echo "To build the GUI version, you may need to:"
+    echo "1. Install development packages: sudo apt-get install libgl1-mesa-dev xorg-dev (Ubuntu/Debian)"
+    echo "2. Install development packages: sudo dnf install mesa-libGL-devel libXrandr-devel (Fedora)"
+    echo "3. Set CGO_ENABLED=1"
+    echo ""
+    echo "For now, you can use the CLI version: ./mark-master-sheet"
+else
+    echo "GUI Executable: mark-master-sheet-gui"
 fi
 
-echo "Build completed successfully!"
+echo ""
+echo "CLI build completed successfully!"
 echo "CLI Executable: mark-master-sheet"
-echo "GUI Executable: mark-master-sheet-gui"
 echo ""
 echo "Usage:"
 echo "  ./mark-master-sheet                    # CLI: Run with default config"
 echo "  ./mark-master-sheet -dry-run           # CLI: Test run without changes"
 echo "  ./mark-master-sheet -stats             # CLI: Show statistics"
 echo "  ./mark-master-sheet -config custom.toml # CLI: Use custom config"
-echo "  ./mark-master-sheet-gui                # GUI: Launch graphical interface"
+echo "  ./mark-master-sheet-gui                # GUI: Launch graphical interface (if built)"
 echo ""
