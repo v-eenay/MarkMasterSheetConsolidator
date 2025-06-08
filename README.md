@@ -2,6 +2,20 @@
 
 A production-ready Go application that automates the consolidation of student marks from individual Excel files into a master spreadsheet.
 
+**All rights reserved to Vinay Koirala**
+
+## Author
+
+**Vinay Koirala**
+- Personal Email: koiralavinay@gmail.com
+- Professional Email: binaya.koirala@iic.edu.np
+- LinkedIn: [veenay](https://linkedin.com/in/veenay)
+- GitHub: [v-eenay](https://github.com/v-eenay)
+
+## Repository
+
+- **Repository URL**: https://github.com/v-eenay/MarkMasterSheetConsolidator.git
+
 ## Features
 
 - **Recursive File Discovery**: Scans nested folders to find all Excel files (.xlsx, .xls)
@@ -248,17 +262,15 @@ Enable debug logging by setting the log level to "DEBUG" in config.toml:
 level = "DEBUG"
 ```
 
-## Contributing
+## License and Copyright
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
+**All rights reserved to Vinay Koirala**
 
-## License
+This software is proprietary and confidential. Unauthorized copying, distribution, or modification of this software, via any medium, is strictly prohibited without the express written permission of the copyright holder.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+For licensing inquiries, please contact:
+- Email: koiralavinay@gmail.com
+- Professional: binaya.koirala@iic.edu.np
 
 ## Project Files
 
@@ -289,5 +301,10 @@ For support and questions:
 - Review the configuration file for correct paths and settings
 - Use dry-run mode to test changes safely
 - See `DEPLOYMENT.md` for detailed troubleshooting guide
-#   M a r k M a s t e r S h e e t C o n s o l i d a t o r  
+
+For technical support, contact:
+- **Vinay Koirala**: koiralavinay@gmail.com
+- Professional: binaya.koirala@iic.edu.np
+#   M a r k M a s t e r S h e e t C o n s o l i d a t o r 
+ 
  

@@ -1,0 +1,77 @@
+# Sample configuration file for Mark Master Sheet Consolidator
+# Copy this file to config.toml and modify as needed
+
+[paths]
+# Directory containing student Excel files (will be scanned recursively)
+student_files_folder = "./StudentFiles"
+
+# Path to the master Excel file
+master_sheet_path = "./MasterSheet/CS5054NT 2024-25 SEM2 Result.xlsx"
+
+# Directory where updated master sheets will be saved
+output_folder = "./output"
+
+# Directory for log files
+log_folder = "./logs"
+
+# Directory for backup files
+backup_folder = "./backups"
+
+[excel_settings]
+# Name of the worksheet in student files containing grades
+student_worksheet_name = "Grading Sheet"
+
+# Name of the worksheet in master file to update
+master_worksheet_name = "001"
+
+# Cell containing student ID in student files
+student_id_cell = "B2"
+
+# Cells containing marks in student files
+mark_cells = [
+    "C6", "C7", "C8", "C9", "C10", 
+    "C11", "C12", "C13", "C15", "C16", 
+    "C17", "C18", "C19", "C20"
+]
+
+# Corresponding columns in master sheet
+master_columns = [
+    "I", "J", "K", "L", "M", 
+    "N", "O", "P", "Q", "R", 
+    "S", "T", "U", "V"
+]
+
+[processing]
+# Maximum number of files to process concurrently
+max_concurrent_files = 10
+
+# Whether to create backups before making changes
+backup_enabled = true
+
+# Whether to skip invalid files and continue processing
+skip_invalid_files = true
+
+# Timeout for the entire processing operation (seconds)
+timeout_seconds = 300
+
+# Number of retry attempts for failed files
+retry_attempts = 3
+
+[logging]
+# Log level: DEBUG, INFO, WARN, ERROR
+level = "INFO"
+
+# Whether to output logs to console
+console_output = true
+
+# Whether to output logs to files
+file_output = true
+
+# Maximum size of log files in MB before rotation
+max_file_size_mb = 100
+
+# Maximum number of backup log files to keep
+max_backup_files = 5
+
+# Maximum age of log files in days
+max_age_days = 30
