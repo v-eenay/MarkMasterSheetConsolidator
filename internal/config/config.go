@@ -47,12 +47,12 @@ type ProcessingConfig struct {
 
 // LoggingConfig contains logging settings
 type LoggingConfig struct {
-	Level           string `toml:"level"`
-	ConsoleOutput   bool   `toml:"console_output"`
-	FileOutput      bool   `toml:"file_output"`
-	MaxFileSizeMB   int    `toml:"max_file_size_mb"`
-	MaxBackupFiles  int    `toml:"max_backup_files"`
-	MaxAgeDays      int    `toml:"max_age_days"`
+	Level          string `toml:"level"`
+	ConsoleOutput  bool   `toml:"console_output"`
+	FileOutput     bool   `toml:"file_output"`
+	MaxFileSizeMB  int    `toml:"max_file_size_mb"`
+	MaxBackupFiles int    `toml:"max_backup_files"`
+	MaxAgeDays     int    `toml:"max_age_days"`
 }
 
 // LoadConfig loads configuration from the specified file

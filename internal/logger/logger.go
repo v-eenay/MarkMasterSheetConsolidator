@@ -45,7 +45,7 @@ func NewLogger(cfg *config.LoggingConfig, logDir string) (*Logger, error) {
 		}
 
 		// Setup file rotation
-		logFile := filepath.Join(logDir, fmt.Sprintf("mark-master-sheet-%s.log", 
+		logFile := filepath.Join(logDir, fmt.Sprintf("mark-master-sheet-%s.log",
 			time.Now().Format("2006-01-02")))
 
 		fileWriter := &lumberjack.Logger{
@@ -115,7 +115,7 @@ func (l *Logger) LogStudentNotFound(studentID, filePath string, suggestions []st
 		"student_id": studentID,
 		"file_path":  filePath,
 	}
-	
+
 	if len(suggestions) > 0 {
 		fields["suggestions"] = suggestions
 	}

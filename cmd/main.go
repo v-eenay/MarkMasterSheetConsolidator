@@ -99,7 +99,7 @@ func main() {
 
 	// Add timeout to context
 	if cfg.Processing.TimeoutSeconds > 0 {
-		timeoutCtx, timeoutCancel := context.WithTimeout(ctx, 
+		timeoutCtx, timeoutCancel := context.WithTimeout(ctx,
 			time.Duration(cfg.Processing.TimeoutSeconds)*time.Second)
 		defer timeoutCancel()
 		ctx = timeoutCtx
@@ -156,12 +156,12 @@ func printSummary(summary interface{}, dryRun bool) {
 		fmt.Printf("Successful: %d\n", s.SuccessfulFiles)
 		fmt.Printf("Failed: %d\n", s.FailedFiles)
 		fmt.Printf("Skipped: %d\n", s.SkippedFiles)
-		
+
 		if !dryRun {
 			fmt.Printf("Students Updated: %d\n", s.StudentsUpdated)
 			fmt.Printf("Students Not Found: %d\n", s.StudentsNotFound)
 		}
-		
+
 		fmt.Printf("Duration: %v\n", s.TotalDuration)
 
 		if len(s.Errors) > 0 {

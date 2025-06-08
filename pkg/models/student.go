@@ -17,10 +17,10 @@ type StudentData struct {
 
 // ProcessingResult represents the result of processing a single file
 type ProcessingResult struct {
-	StudentData *StudentData `json:"student_data,omitempty"`
-	FilePath    string       `json:"file_path"`
-	Success     bool         `json:"success"`
-	Error       error        `json:"error,omitempty"`
+	StudentData *StudentData  `json:"student_data,omitempty"`
+	FilePath    string        `json:"file_path"`
+	Success     bool          `json:"success"`
+	Error       error         `json:"error,omitempty"`
 	Duration    time.Duration `json:"duration"`
 }
 
@@ -48,7 +48,7 @@ type ValidationError struct {
 }
 
 func (e ValidationError) Error() string {
-	return fmt.Sprintf("validation error in file %s, field %s (value: %s): %s", 
+	return fmt.Sprintf("validation error in file %s, field %s (value: %s): %s",
 		e.File, e.Field, e.Value, e.Message)
 }
 
@@ -62,10 +62,10 @@ type FileProcessingError struct {
 
 func (e FileProcessingError) Error() string {
 	if e.Cause != nil {
-		return fmt.Sprintf("file processing error at %s stage for %s: %s (caused by: %v)", 
+		return fmt.Sprintf("file processing error at %s stage for %s: %s (caused by: %v)",
 			e.Stage, e.FilePath, e.Message, e.Cause)
 	}
-	return fmt.Sprintf("file processing error at %s stage for %s: %s", 
+	return fmt.Sprintf("file processing error at %s stage for %s: %s",
 		e.Stage, e.FilePath, e.Message)
 }
 
@@ -74,12 +74,12 @@ func (s *StudentData) IsValidStudentID() bool {
 	if s.StudentID == "" {
 		return false
 	}
-	
+
 	// Check if it contains only alphanumeric characters
 	for _, char := range s.StudentID {
-		if !((char >= 'a' && char <= 'z') || 
-			 (char >= 'A' && char <= 'Z') || 
-			 (char >= '0' && char <= '9')) {
+		if !((char >= 'a' && char <= 'z') ||
+			(char >= 'A' && char <= 'Z') ||
+			(char >= '0' && char <= '9')) {
 			return false
 		}
 	}
@@ -99,6 +99,6 @@ func (s *StudentData) GetMarkCount() int {
 
 // String returns a string representation of the student data
 func (s *StudentData) String() string {
-	return fmt.Sprintf("Student{ID: %s, File: %s, Marks: %d}", 
+	return fmt.Sprintf("Student{ID: %s, File: %s, Marks: %d}",
 		s.StudentID, s.FilePath, len(s.Marks))
 }

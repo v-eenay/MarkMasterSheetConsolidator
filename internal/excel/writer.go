@@ -200,7 +200,7 @@ func (w *Writer) BatchUpdateMasterSheet(masterSheetPath string, studentDataList 
 		rowNumber, err := w.reader.FindStudentInMasterSheet(masterFile, studentData.StudentID)
 		if err != nil {
 			summary.StudentsNotFound++
-			summary.Warnings = append(summary.Warnings, 
+			summary.Warnings = append(summary.Warnings,
 				fmt.Sprintf("Student %s not found in master sheet", studentData.StudentID))
 			continue
 		}
@@ -222,8 +222,8 @@ func (w *Writer) BatchUpdateMasterSheet(masterSheetPath string, studentDataList 
 
 			// Set the mark value
 			if err := masterFile.SetCellFloat(w.config.MasterWorksheetName, targetCell, mark, 2, 64); err != nil {
-				summary.Errors = append(summary.Errors, 
-					fmt.Sprintf("Failed to set mark for student %s in cell %s: %v", 
+				summary.Errors = append(summary.Errors,
+					fmt.Sprintf("Failed to set mark for student %s in cell %s: %v",
 						studentData.StudentID, targetCell, err))
 				continue
 			}

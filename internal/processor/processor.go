@@ -76,7 +76,7 @@ func (p *Processor) ProcessFiles(ctx context.Context, dryRun bool) (*models.Proc
 
 	// Process files concurrently
 	studentDataList, processingSummary := p.processFilesConcurrently(ctx, excelFiles)
-	
+
 	// Merge processing summary
 	summary.SuccessfulFiles = processingSummary.SuccessfulFiles
 	summary.FailedFiles = processingSummary.FailedFiles
@@ -200,7 +200,7 @@ func (p *Processor) processFilesConcurrently(ctx context.Context, files []string
 					p.logger.LogSkippedFile(path, result.Error.Error())
 				} else {
 					summary.FailedFiles++
-					summary.Errors = append(summary.Errors, 
+					summary.Errors = append(summary.Errors,
 						fmt.Sprintf("File %s: %v", path, result.Error))
 				}
 			}
@@ -210,7 +210,7 @@ func (p *Processor) processFilesConcurrently(ctx context.Context, files []string
 			mu.Lock()
 			processed := summary.SuccessfulFiles + summary.FailedFiles + summary.SkippedFiles
 			mu.Unlock()
-			
+
 			if processed%10 == 0 { // Log every 10 files
 				p.logger.LogProgress(processed, len(files), path)
 			}
@@ -240,7 +240,7 @@ func (p *Processor) processFileWithRetries(filePath string) *models.ProcessingRe
 		if err == nil {
 			result.Success = true
 			result.StudentData = studentData
-			
+
 			p.logger.LogFileProcessed(
 				filePath,
 				studentData.StudentID,
@@ -267,7 +267,7 @@ func (p *Processor) processFileWithRetries(filePath string) *models.ProcessingRe
 // GetProcessingStatistics returns current processing statistics
 func (p *Processor) GetProcessingStatistics() map[string]interface{} {
 	stats := make(map[string]interface{})
-	
+
 	// Count total files
 	excelFiles, err := p.findExcelFiles(p.config.Paths.StudentFilesFolder)
 	if err != nil {

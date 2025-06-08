@@ -169,7 +169,7 @@ func (r *Reader) FindStudentInMasterSheet(masterFile *excelize.File, studentID s
 
 	// Search for student ID (case-insensitive)
 	studentIDLower := strings.ToLower(strings.TrimSpace(studentID))
-	
+
 	for rowIndex, row := range rows {
 		if len(row) > 1 { // Ensure column B exists
 			cellValue := strings.ToLower(strings.TrimSpace(row[1])) // Column B is index 1
@@ -197,11 +197,11 @@ func (r *Reader) GetSimilarStudentIDs(masterFile *excelize.File, targetID string
 			cellValue := strings.TrimSpace(row[1])
 			if cellValue != "" {
 				cellValueLower := strings.ToLower(cellValue)
-				
+
 				// Simple similarity check: contains substring or similar length
-				if strings.Contains(cellValueLower, targetIDLower) || 
-				   strings.Contains(targetIDLower, cellValueLower) ||
-				   levenshteinDistance(targetIDLower, cellValueLower) <= 2 {
+				if strings.Contains(cellValueLower, targetIDLower) ||
+					strings.Contains(targetIDLower, cellValueLower) ||
+					levenshteinDistance(targetIDLower, cellValueLower) <= 2 {
 					suggestions = append(suggestions, cellValue)
 				}
 			}

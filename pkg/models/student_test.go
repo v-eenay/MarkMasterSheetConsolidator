@@ -118,7 +118,7 @@ func TestStudentData_String(t *testing.T) {
 
 	result := s.String()
 	expected := "Student{ID: 23049191, File: /path/to/file.xlsx, Marks: 2}"
-	
+
 	if result != expected {
 		t.Errorf("StudentData.String() = %v, want %v", result, expected)
 	}
