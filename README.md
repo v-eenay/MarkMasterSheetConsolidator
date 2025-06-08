@@ -77,7 +77,7 @@ go build -o mark-master-sheet.exe cmd/main.go
    ```bash
    # Windows
    mark-master-sheet.exe -dry-run
-
+   
    # Linux/macOS
    ./mark-master-sheet -dry-run
    ```
@@ -86,7 +86,7 @@ go build -o mark-master-sheet.exe cmd/main.go
    ```bash
    # Windows
    mark-master-sheet.exe
-
+   
    # Linux/macOS
    ./mark-master-sheet
    ```
@@ -262,16 +262,6 @@ Enable debug logging by setting the log level to "DEBUG" in config.toml:
 level = "DEBUG"
 ```
 
-## License and Copyright
-
-**All rights reserved to Vinay Koirala**
-
-This software is proprietary and confidential. Unauthorized copying, distribution, or modification of this software, via any medium, is strictly prohibited without the express written permission of the copyright holder.
-
-For licensing inquiries, please contact:
-- Email: koiralavinay@gmail.com
-- Professional: binaya.koirala@iic.edu.np
-
 ## Project Files
 
 ### Core Application Files
@@ -305,6 +295,13 @@ For support and questions:
 For technical support, contact:
 - **Vinay Koirala**: koiralavinay@gmail.com
 - Professional: binaya.koirala@iic.edu.np
-#   M a r k M a s t e r S h e e t C o n s o l i d a t o r 
- 
- 
+
+## License and Copyright
+
+**All rights reserved to Vinay Koirala**
+
+This software is proprietary and confidential. Unauthorized copying, distribution, or modification of this software, via any medium, is strictly prohibited without the express written permission of the copyright holder.
+
+For licensing inquiries, please contact:
+- Email: koiralavinay@gmail.com
+- Professional: binaya.koirala@iic.edu.np
