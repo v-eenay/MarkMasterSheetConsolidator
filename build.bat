@@ -26,22 +26,32 @@ if %errorlevel% neq 0 (
     echo Warning: Some tests failed
 )
 
-REM Build the application
-echo Building application...
+REM Build the applications
+echo Building CLI application...
 go build -o mark-master-sheet.exe cmd/main.go
 if %errorlevel% neq 0 (
-    echo Error: Build failed
+    echo Error: CLI build failed
+    pause
+    exit /b 1
+)
+
+echo Building GUI application...
+go build -o mark-master-sheet-gui.exe cmd/gui/main.go
+if %errorlevel% neq 0 (
+    echo Error: GUI build failed
     pause
     exit /b 1
 )
 
 echo Build completed successfully!
-echo Executable: mark-master-sheet.exe
+echo CLI Executable: mark-master-sheet.exe
+echo GUI Executable: mark-master-sheet-gui.exe
 echo.
 echo Usage:
-echo   mark-master-sheet.exe                    # Run with default config
-echo   mark-master-sheet.exe -dry-run           # Test run without changes
-echo   mark-master-sheet.exe -stats             # Show statistics
-echo   mark-master-sheet.exe -config custom.toml # Use custom config
+echo   mark-master-sheet.exe                    # CLI: Run with default config
+echo   mark-master-sheet.exe -dry-run           # CLI: Test run without changes
+echo   mark-master-sheet.exe -stats             # CLI: Show statistics
+echo   mark-master-sheet.exe -config custom.toml # CLI: Use custom config
+echo   mark-master-sheet-gui.exe                # GUI: Launch graphical interface
 echo.
 pause

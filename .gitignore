@@ -53,6 +53,8 @@ config.toml
 /build/
 mark-master-sheet
 mark-master-sheet.exe
+mark-master-sheet-gui
+mark-master-sheet-gui.exe
 
 # Coverage reports
 coverage.html

@@ -24,20 +24,29 @@ if [ $? -ne 0 ]; then
     echo "Warning: Some tests failed"
 fi
 
-# Build the application
-echo "Building application..."
+# Build the applications
+echo "Building CLI application..."
 go build -o mark-master-sheet cmd/main.go
 if [ $? -ne 0 ]; then
-    echo "Error: Build failed"
+    echo "Error: CLI build failed"
+    exit 1
+fi
+
+echo "Building GUI application..."
+go build -o mark-master-sheet-gui cmd/gui/main.go
+if [ $? -ne 0 ]; then
+    echo "Error: GUI build failed"
     exit 1
 fi
 
 echo "Build completed successfully!"
-echo "Executable: mark-master-sheet"
+echo "CLI Executable: mark-master-sheet"
+echo "GUI Executable: mark-master-sheet-gui"
 echo ""
 echo "Usage:"
-echo "  ./mark-master-sheet                    # Run with default config"
-echo "  ./mark-master-sheet -dry-run           # Test run without changes"
-echo "  ./mark-master-sheet -stats             # Show statistics"
-echo "  ./mark-master-sheet -config custom.toml # Use custom config"
+echo "  ./mark-master-sheet                    # CLI: Run with default config"
+echo "  ./mark-master-sheet -dry-run           # CLI: Test run without changes"
+echo "  ./mark-master-sheet -stats             # CLI: Show statistics"
+echo "  ./mark-master-sheet -config custom.toml # CLI: Use custom config"
+echo "  ./mark-master-sheet-gui                # GUI: Launch graphical interface"
 echo ""

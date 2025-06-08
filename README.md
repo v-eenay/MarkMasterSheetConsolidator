@@ -18,6 +18,7 @@ A production-ready Go application that automates the consolidation of student ma
 
 ## Features
 
+- **Dual Interface**: Both command-line and graphical user interface options
 - **Recursive File Discovery**: Scans nested folders to find all Excel files (.xlsx, .xls)
 - **Concurrent Processing**: Processes multiple files simultaneously with configurable rate limiting
 - **Data Validation**: Validates student IDs and numeric marks with comprehensive error handling
@@ -27,6 +28,7 @@ A production-ready Go application that automates the consolidation of student ma
 - **Configuration Management**: TOML-based configuration with validation
 - **Graceful Shutdown**: Handles interruption signals properly
 - **Dry-Run Mode**: Test processing without making actual changes
+- **User-Friendly GUI**: Intuitive graphical interface for non-technical users
 
 ## Quick Start
 
@@ -57,11 +59,15 @@ chmod +x build.sh
 # Download dependencies
 go mod tidy
 
-# Build the application
+# Build the CLI application
 go build -o mark-master-sheet cmd/main.go
+
+# Build the GUI application
+go build -o mark-master-sheet-gui cmd/gui/main.go
 
 # Or for Windows
 go build -o mark-master-sheet.exe cmd/main.go
+go build -o mark-master-sheet-gui.exe cmd/gui/main.go
 ```
 
 ### First Run
@@ -84,11 +90,17 @@ go build -o mark-master-sheet.exe cmd/main.go
 
 4. **Run actual processing:**
    ```bash
-   # Windows
+   # Windows CLI
    mark-master-sheet.exe
-   
-   # Linux/macOS
+
+   # Windows GUI
+   mark-master-sheet-gui.exe
+
+   # Linux/macOS CLI
    ./mark-master-sheet
+
+   # Linux/macOS GUI
+   ./mark-master-sheet-gui
    ```
 
 ## Configuration
@@ -127,6 +139,30 @@ max_age_days = 30
 ```
 
 ## Usage
+
+### Graphical User Interface (GUI)
+
+The GUI provides a user-friendly interface for non-technical users:
+
+```bash
+# Windows
+mark-master-sheet-gui.exe
+
+# Linux/macOS
+./mark-master-sheet-gui
+```
+
+**GUI Features:**
+- **File/Folder Selection**: Easy browsing for master file, student folder, output and backup directories
+- **Excel Configuration**: Input fields for worksheet names and cell locations with validation
+- **Dynamic Mark Mapping**: Visual table for configuring cell-to-column mappings with add/remove functionality
+- **Processing Controls**: Checkboxes for backup and error handling options, dry-run and process buttons
+- **Real-time Validation**: Immediate feedback on configuration errors
+- **Progress Tracking**: Visual progress bar and status updates during processing
+- **Log Output**: Built-in log viewer showing processing results and errors
+- **Configuration Management**: Load/save configuration files through the interface
+
+### Command Line Interface (CLI)
 
 ### Basic Usage
 
@@ -265,12 +301,16 @@ level = "DEBUG"
 ## Project Files
 
 ### Core Application Files
-- `cmd/main.go` - Application entry point with CLI handling
+- `cmd/main.go` - CLI application entry point
+- `cmd/gui/main.go` - GUI application entry point
 - `internal/config/config.go` - Configuration management and validation
 - `internal/excel/reader.go` - Excel file reading and data extraction
 - `internal/excel/writer.go` - Excel file writing and master sheet updates
 - `internal/processor/processor.go` - Main processing logic and concurrency
 - `internal/logger/logger.go` - Structured logging with rotation
+- `internal/gui/app.go` - GUI application framework and UI components
+- `internal/gui/config.go` - GUI configuration management
+- `internal/gui/processing.go` - GUI processing integration
 - `pkg/models/student.go` - Data structures and validation
 
 ### Configuration and Scripts
