@@ -9,84 +9,79 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-// ModernTheme provides a custom modern theme for the application
-type ModernTheme struct{}
+// ModernLightTheme provides a custom modern light theme for the application
+type ModernLightTheme struct{}
 
-// Color returns theme colors with a modern professional palette
-func (m ModernTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant) color.Color {
+// Color returns theme colors with a modern professional light palette
+func (m ModernLightTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant) color.Color {
+	// Force light variant for all colors to ensure consistent light theme
 	switch name {
 	case theme.ColorNamePrimary:
-		if variant == theme.VariantLight {
-			return color.RGBA{R: 33, G: 150, B: 243, A: 255} // Modern blue
-		}
-		return color.RGBA{R: 100, G: 181, B: 246, A: 255} // Light blue for dark theme
+		return color.RGBA{R: 25, G: 118, B: 210, A: 255} // Professional blue
 	case theme.ColorNameBackground:
-		if variant == theme.VariantLight {
-			return color.RGBA{R: 250, G: 250, B: 250, A: 255} // Very light gray
-		}
-		return color.RGBA{R: 33, G: 33, B: 33, A: 255} // Dark gray
+		return color.RGBA{R: 255, G: 255, B: 255, A: 255} // Pure white background
 	case theme.ColorNameButton:
-		if variant == theme.VariantLight {
-			return color.RGBA{R: 245, G: 245, B: 245, A: 255} // Light button
-		}
-		return color.RGBA{R: 66, G: 66, B: 66, A: 255} // Dark button
+		return color.RGBA{R: 248, G: 249, B: 250, A: 255} // Very light gray button
 	case theme.ColorNameDisabledButton:
-		if variant == theme.VariantLight {
-			return color.RGBA{R: 224, G: 224, B: 224, A: 255} // Disabled light
-		}
-		return color.RGBA{R: 97, G: 97, B: 97, A: 255} // Disabled dark
+		return color.RGBA{R: 233, G: 236, B: 239, A: 255} // Light disabled
 	case theme.ColorNameForeground:
-		if variant == theme.VariantLight {
-			return color.RGBA{R: 33, G: 33, B: 33, A: 255} // Dark text
-		}
-		return color.RGBA{R: 255, G: 255, B: 255, A: 255} // Light text
+		return color.RGBA{R: 33, G: 37, B: 41, A: 255} // Dark text for readability
 	case theme.ColorNameSuccess:
-		return color.RGBA{R: 76, G: 175, B: 80, A: 255} // Green
+		return color.RGBA{R: 40, G: 167, B: 69, A: 255} // Green
 	case theme.ColorNameWarning:
 		return color.RGBA{R: 255, G: 193, B: 7, A: 255} // Amber
 	case theme.ColorNameError:
-		return color.RGBA{R: 244, G: 67, B: 54, A: 255} // Red
+		return color.RGBA{R: 220, G: 53, B: 69, A: 255} // Red
+	case theme.ColorNameInputBackground:
+		return color.RGBA{R: 255, G: 255, B: 255, A: 255} // White input background
+	case theme.ColorNameInputBorder:
+		return color.RGBA{R: 206, G: 212, B: 218, A: 255} // Light border
+	case theme.ColorNameScrollBar:
+		return color.RGBA{R: 206, G: 212, B: 218, A: 255} // Light scrollbar
+	case theme.ColorNameShadow:
+		return color.RGBA{R: 0, G: 0, B: 0, A: 25} // Subtle shadow
 	}
-	
-	// Fall back to default theme for other colors
-	return theme.DefaultTheme().Color(name, variant)
+
+	// Fall back to default theme for other colors but force light variant
+	return theme.DefaultTheme().Color(name, theme.VariantLight)
 }
 
 // Font returns theme fonts with modern typography
-func (m ModernTheme) Font(style fyne.TextStyle) fyne.Resource {
-	// Use default fonts but could be customized with modern font resources
+func (m ModernLightTheme) Font(style fyne.TextStyle) fyne.Resource {
+	// Use default fonts which handle Unicode characters properly
 	return theme.DefaultTheme().Font(style)
 }
 
 // Icon returns theme icons
-func (m ModernTheme) Icon(name fyne.ThemeIconName) fyne.Resource {
+func (m ModernLightTheme) Icon(name fyne.ThemeIconName) fyne.Resource {
 	return theme.DefaultTheme().Icon(name)
 }
 
 // Size returns theme sizes with modern spacing
-func (m ModernTheme) Size(name fyne.ThemeSizeName) float32 {
+func (m ModernLightTheme) Size(name fyne.ThemeSizeName) float32 {
 	switch name {
 	case theme.SizeNamePadding:
-		return 8 // Increased padding for modern look
+		return 12 // Generous padding for modern look
 	case theme.SizeNameInlineIcon:
-		return 20 // Slightly larger icons
+		return 20 // Properly sized icons
 	case theme.SizeNameScrollBar:
-		return 12 // Thinner scroll bars
+		return 16 // Comfortable scroll bars
 	case theme.SizeNameSeparatorThickness:
-		return 1 // Thin separators
+		return 1 // Clean thin separators
 	case theme.SizeNameInputBorder:
-		return 2 // Slightly thicker input borders
+		return 2 // Visible input borders
+	case theme.SizeNameText:
+		return 14 // Readable text size
 	}
-	
+
 	// Fall back to default theme for other sizes
 	return theme.DefaultTheme().Size(name)
 }
 
-// applyCustomTheme applies the custom theme to the application
+// applyCustomTheme applies the custom light theme to the application
 func (a *App) applyCustomTheme() {
-	// Note: In Fyne v2, custom themes need to be set at the app level
-	// This is a placeholder for future theme customization
-	// For now, we rely on the enhanced UI components and styling
+	// Apply the modern light theme to ensure good visibility
+	a.fyneApp.Settings().SetTheme(&ModernLightTheme{})
 }
 
 // Modern color constants for consistent styling

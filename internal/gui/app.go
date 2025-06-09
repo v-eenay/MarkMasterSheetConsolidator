@@ -115,11 +115,11 @@ func (a *App) Run() {
 func (a *App) setupUI() {
 	// Create main container with enhanced tabs
 	tabs := container.NewAppTabs(
-		container.NewTabItem("📁 File Paths", a.createFilePathsTab()),
-		container.NewTabItem("📊 Excel Settings", a.createExcelSettingsTab()),
-		container.NewTabItem("🔗 Mark Mappings", a.createMarkMappingsTab()),
-		container.NewTabItem("⚙️ Processing", a.createProcessingTab()),
-		container.NewTabItem("📋 Logs", a.createLogsTab()),
+		container.NewTabItem("File Paths", a.createFilePathsTab()),
+		container.NewTabItem("Excel Settings", a.createExcelSettingsTab()),
+		container.NewTabItem("Mark Mappings", a.createMarkMappingsTab()),
+		container.NewTabItem("Processing", a.createProcessingTab()),
+		container.NewTabItem("Logs", a.createLogsTab()),
 	)
 
 	// Set tab location and styling
@@ -220,7 +220,7 @@ func (a *App) createFilePathsTab() *fyne.Container {
 	// Master file selection with enhanced styling
 	a.masterFileEntry = widget.NewEntry()
 	a.masterFileEntry.SetPlaceHolder("Select master Excel file (.xlsx, .xls)...")
-	masterFileButton := widget.NewButton("📁 Browse", func() {
+	masterFileButton := widget.NewButton("Browse", func() {
 		a.selectMasterFile()
 	})
 	masterFileButton.Importance = widget.MediumImportance
@@ -228,7 +228,7 @@ func (a *App) createFilePathsTab() *fyne.Container {
 	// Student folder selection
 	a.studentFolderEntry = widget.NewEntry()
 	a.studentFolderEntry.SetPlaceHolder("Select student files folder (recursive scan)...")
-	studentFolderButton := widget.NewButton("📂 Browse", func() {
+	studentFolderButton := widget.NewButton("Browse", func() {
 		a.selectStudentFolder()
 	})
 	studentFolderButton.Importance = widget.MediumImportance
@@ -236,7 +236,7 @@ func (a *App) createFilePathsTab() *fyne.Container {
 	// Output folder selection
 	a.outputFolderEntry = widget.NewEntry()
 	a.outputFolderEntry.SetPlaceHolder("Select output folder for processed files...")
-	outputFolderButton := widget.NewButton("📤 Browse", func() {
+	outputFolderButton := widget.NewButton("Browse", func() {
 		a.selectOutputFolder()
 	})
 	outputFolderButton.Importance = widget.MediumImportance
@@ -244,7 +244,7 @@ func (a *App) createFilePathsTab() *fyne.Container {
 	// Backup folder selection
 	a.backupFolderEntry = widget.NewEntry()
 	a.backupFolderEntry.SetPlaceHolder("Select backup folder for safety copies...")
-	backupFolderButton := widget.NewButton("💾 Browse", func() {
+	backupFolderButton := widget.NewButton("Browse", func() {
 		a.selectBackupFolder()
 	})
 	backupFolderButton.Importance = widget.MediumImportance
@@ -252,10 +252,10 @@ func (a *App) createFilePathsTab() *fyne.Container {
 	// Enhanced layout with better spacing and visual hierarchy
 	form := &widget.Form{
 		Items: []*widget.FormItem{
-			{Text: "📄 Master Excel File *:", Widget: container.NewBorder(nil, nil, nil, masterFileButton, a.masterFileEntry)},
-			{Text: "📚 Student Files Folder *:", Widget: container.NewBorder(nil, nil, nil, studentFolderButton, a.studentFolderEntry)},
-			{Text: "📤 Output Folder:", Widget: container.NewBorder(nil, nil, nil, outputFolderButton, a.outputFolderEntry)},
-			{Text: "💾 Backup Folder:", Widget: container.NewBorder(nil, nil, nil, backupFolderButton, a.backupFolderEntry)},
+			{Text: "Master Excel File *:", Widget: container.NewBorder(nil, nil, nil, masterFileButton, a.masterFileEntry)},
+			{Text: "Student Files Folder *:", Widget: container.NewBorder(nil, nil, nil, studentFolderButton, a.studentFolderEntry)},
+			{Text: "Output Folder:", Widget: container.NewBorder(nil, nil, nil, outputFolderButton, a.outputFolderEntry)},
+			{Text: "Backup Folder:", Widget: container.NewBorder(nil, nil, nil, backupFolderButton, a.backupFolderEntry)},
 		},
 	}
 
@@ -264,7 +264,7 @@ func (a *App) createFilePathsTab() *fyne.Container {
 	helpText.TextStyle = fyne.TextStyle{Italic: true}
 
 	return container.NewVBox(
-		widget.NewCard("📁 File and Folder Configuration",
+		widget.NewCard("File and Folder Configuration",
 			"Configure input and output locations for mark processing",
 			container.NewVBox(form, widget.NewSeparator(), helpText)),
 	)
@@ -301,10 +301,10 @@ func (a *App) createExcelSettingsTab() *fyne.Container {
 	// Enhanced form with better descriptions
 	form := &widget.Form{
 		Items: []*widget.FormItem{
-			{Text: "📊 Student Worksheet Name:", Widget: a.studentWorksheetEntry},
-			{Text: "📋 Master Worksheet Name:", Widget: a.masterWorksheetEntry},
-			{Text: "🔍 Student ID Cell Location:", Widget: a.studentIDCellEntry},
-			{Text: "📍 Student ID Column (Master):", Widget: a.studentIDColumnEntry},
+			{Text: "Student Worksheet Name:", Widget: a.studentWorksheetEntry},
+			{Text: "Master Worksheet Name:", Widget: a.masterWorksheetEntry},
+			{Text: "Student ID Cell Location:", Widget: a.studentIDCellEntry},
+			{Text: "Student ID Column (Master):", Widget: a.studentIDColumnEntry},
 		},
 	}
 
@@ -313,7 +313,7 @@ func (a *App) createExcelSettingsTab() *fyne.Container {
 	exampleText.TextStyle = fyne.TextStyle{Italic: true}
 
 	return container.NewVBox(
-		widget.NewCard("📊 Excel Worksheet Configuration",
+		widget.NewCard("Excel Worksheet Configuration",
 			"Configure worksheet names and cell locations for data extraction",
 			container.NewVBox(form, widget.NewSeparator(), exampleText)),
 	)
@@ -324,7 +324,7 @@ func (a *App) createStatusBar() *fyne.Container {
 	a.progressBar = widget.NewProgressBar()
 	a.progressBar.Hide()
 
-	a.statusLabel = widget.NewLabel("🟢 Ready")
+	a.statusLabel = widget.NewLabel("Ready")
 	a.statusLabel.TextStyle = fyne.TextStyle{Bold: true}
 
 	// Add version and author info to status bar
@@ -382,24 +382,24 @@ func (a *App) showInfo(title, message string) {
 	dialog.ShowInformation(title, message, a.window)
 }
 
-// updateStatus updates the status label with modern indicators and optionally the progress bar
+// updateStatus updates the status label with text indicators and optionally the progress bar
 func (a *App) updateStatus(status string, progress ...float64) {
 	// Add status indicators based on content
-	var statusIcon string
+	var statusPrefix string
 	switch {
 	case strings.Contains(strings.ToLower(status), "error") || strings.Contains(strings.ToLower(status), "failed"):
-		statusIcon = "🔴"
+		statusPrefix = "[ERROR]"
 	case strings.Contains(strings.ToLower(status), "warning"):
-		statusIcon = "🟡"
+		statusPrefix = "[WARNING]"
 	case strings.Contains(strings.ToLower(status), "processing") || strings.Contains(strings.ToLower(status), "building"):
-		statusIcon = "🔵"
+		statusPrefix = "[PROCESSING]"
 	case strings.Contains(strings.ToLower(status), "completed") || strings.Contains(strings.ToLower(status), "success"):
-		statusIcon = "🟢"
+		statusPrefix = "[SUCCESS]"
 	default:
-		statusIcon = "🟢"
+		statusPrefix = "[READY]"
 	}
 
-	a.statusLabel.SetText(fmt.Sprintf("%s %s", statusIcon, status))
+	a.statusLabel.SetText(fmt.Sprintf("%s %s", statusPrefix, status))
 
 	if len(progress) > 0 {
 		a.progressBar.SetValue(progress[0])
@@ -437,13 +437,13 @@ func (a *App) createMarkMappingsTab() *fyne.Container {
 			masterColumn.Resize(fyne.NewSize(80, 32))
 
 			// Create arrow label
-			arrowLabel := widget.NewLabel("→")
+			arrowLabel := widget.NewLabel("->")
 			arrowLabel.Alignment = fyne.TextAlignCenter
 
-			// Create remove button with icon
-			removeBtn := widget.NewButton("🗑️", nil)
+			// Create remove button
+			removeBtn := widget.NewButton("Remove", nil)
 			removeBtn.Importance = widget.DangerImportance
-			removeBtn.Resize(fyne.NewSize(40, 32))
+			removeBtn.Resize(fyne.NewSize(80, 32))
 
 			// Create container with proper spacing and alignment
 			return container.NewBorder(
@@ -500,12 +500,12 @@ func (a *App) createMarkMappingsTab() *fyne.Container {
 	)
 
 	// Enhanced buttons for managing mappings
-	addButton := widget.NewButton("➕ Add Mapping", func() {
+	addButton := widget.NewButton("Add Mapping", func() {
 		a.addMarkMapping()
 	})
 	addButton.Importance = widget.HighImportance
 
-	resetButton := widget.NewButton("🔄 Reset to Default", func() {
+	resetButton := widget.NewButton("Reset to Default", func() {
 		a.resetMarkMappings()
 	})
 	resetButton.Importance = widget.MediumImportance
@@ -531,8 +531,8 @@ func (a *App) createMarkMappingsTab() *fyne.Container {
 	)
 
 	return container.NewVBox(
-		widget.NewCard("🔗 Mark Cell Mappings",
-			"Configure how student marks map to master sheet columns (Student Cell → Master Column)",
+		widget.NewCard("Mark Cell Mappings",
+			"Configure how student marks map to master sheet columns (Student Cell -> Master Column)",
 			content),
 	)
 }
@@ -540,10 +540,10 @@ func (a *App) createMarkMappingsTab() *fyne.Container {
 // createProcessingTab creates the enhanced processing configuration and control tab
 func (a *App) createProcessingTab() *fyne.Container {
 	// Enhanced processing options with better descriptions
-	a.enableBackupCheck = widget.NewCheck("💾 Enable Backup (Recommended)", nil)
+	a.enableBackupCheck = widget.NewCheck("Enable Backup (Recommended)", nil)
 	a.enableBackupCheck.SetChecked(true)
 
-	a.skipInvalidCheck = widget.NewCheck("⚠️ Skip Invalid Files (Continue on errors)", nil)
+	a.skipInvalidCheck = widget.NewCheck("Skip Invalid Files (Continue on errors)", nil)
 	a.skipInvalidCheck.SetChecked(true)
 
 	a.maxConcurrentEntry = widget.NewEntry()
@@ -556,30 +556,30 @@ func (a *App) createProcessingTab() *fyne.Container {
 		return nil
 	}
 
-	// Enhanced processing buttons with icons
-	dryRunButton := widget.NewButton("🧪 Dry Run (Test)", func() {
+	// Enhanced processing buttons
+	dryRunButton := widget.NewButton("Dry Run (Test)", func() {
 		a.startProcessing(true)
 	})
 	dryRunButton.Importance = widget.MediumImportance
 
-	processButton := widget.NewButton("▶️ Process Files", func() {
+	processButton := widget.NewButton("Process Files", func() {
 		a.startProcessing(false)
 	})
 	processButton.Importance = widget.HighImportance
 
-	stopButton := widget.NewButton("⏹️ Stop", func() {
+	stopButton := widget.NewButton("Stop", func() {
 		a.stopProcessing()
 	})
 	stopButton.Importance = widget.DangerImportance
 	stopButton.Disable()
 
 	// Enhanced configuration buttons
-	loadConfigButton := widget.NewButton("📂 Load Config", func() {
+	loadConfigButton := widget.NewButton("Load Config", func() {
 		a.loadConfigFromFile()
 	})
 	loadConfigButton.Importance = widget.MediumImportance
 
-	saveConfigButton := widget.NewButton("💾 Save Config", func() {
+	saveConfigButton := widget.NewButton("Save Config", func() {
 		a.saveConfigToFile()
 	})
 	saveConfigButton.Importance = widget.MediumImportance
@@ -602,23 +602,23 @@ func (a *App) createProcessingTab() *fyne.Container {
 
 	// Processing controls section
 	processingSection := container.NewVBox(
-		widget.NewLabel("🎮 Processing Controls:"),
+		widget.NewLabel("Processing Controls:"),
 		processingButtons,
 		widget.NewLabel("Use 'Dry Run' to test your configuration before processing actual files."),
 	)
 
 	// Configuration management section
 	configSection := container.NewVBox(
-		widget.NewLabel("⚙️ Configuration Management:"),
+		widget.NewLabel("Configuration Management:"),
 		configButtons,
 		widget.NewLabel("Save your current settings or load a previously saved configuration."),
 	)
 
 	return container.NewVBox(
-		widget.NewCard("⚙️ Processing Options",
+		widget.NewCard("Processing Options",
 			"Configure processing behavior and safety options",
 			container.NewVBox(optionsForm, widget.NewSeparator(), optionsHelp)),
-		widget.NewCard("🎮 Actions & Controls",
+		widget.NewCard("Actions & Controls",
 			"Start processing or manage configuration files",
 			container.NewVBox(
 				processingSection,
@@ -631,17 +631,17 @@ func (a *App) createProcessingTab() *fyne.Container {
 // createLogsTab creates the enhanced logs and output tab
 func (a *App) createLogsTab() *fyne.Container {
 	a.logOutput = widget.NewMultiLineEntry()
-	a.logOutput.SetText("🚀 Application ready. Configure settings and start processing.\n")
+	a.logOutput.SetText("Application ready. Configure settings and start processing.\n")
 	a.logOutput.Wrapping = fyne.TextWrapWord
 	a.logOutput.MultiLine = true
 
 	// Enhanced buttons for log management
-	clearButton := widget.NewButton("🗑️ Clear Logs", func() {
-		a.logOutput.SetText("🚀 Application ready. Configure settings and start processing.\n")
+	clearButton := widget.NewButton("Clear Logs", func() {
+		a.logOutput.SetText("Application ready. Configure settings and start processing.\n")
 	})
 	clearButton.Importance = widget.MediumImportance
 
-	exportButton := widget.NewButton("💾 Export Logs", func() {
+	exportButton := widget.NewButton("Export Logs", func() {
 		a.exportLogs()
 	})
 	exportButton.Importance = widget.MediumImportance
@@ -658,7 +658,7 @@ func (a *App) createLogsTab() *fyne.Container {
 	logStats.TextStyle = fyne.TextStyle{Italic: true}
 
 	return container.NewVBox(
-		widget.NewCard("📋 Processing Logs",
+		widget.NewCard("Processing Logs",
 			"Real-time processing status, results, and error messages",
 			container.NewVBox(
 				logScroll,
