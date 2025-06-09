@@ -5,10 +5,7 @@ package gui
 import (
 	"context"
 	"fmt"
-	"path/filepath"
 	"strconv"
-	"strings"
-	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -66,13 +63,6 @@ type MarkMapping struct {
 // NewApp creates a new GUI application instance
 func NewApp() *App {
 	fyneApp := app.NewWithID("com.vinaykoirala.markmaster")
-	fyneApp.SetMetadata(&fyne.AppMetadata{
-		ID:      "com.vinaykoirala.markmaster",
-		Name:    "Mark Master Sheet Consolidator",
-		Version: "1.0.0",
-		Build:   1,
-		Icon:    nil, // TODO: Add icon
-	})
 
 	window := fyneApp.NewWindow("Mark Master Sheet Consolidator")
 	window.Resize(fyne.NewSize(900, 700))
@@ -303,10 +293,10 @@ func (a *App) createMarkMappingsTab() *fyne.Container {
 				return
 			}
 
-			container := obj.(*container.Container)
-			studentCell := container.Objects[1].(*widget.Entry)
-			masterColumn := container.Objects[3].(*widget.Entry)
-			removeBtn := container.Objects[4].(*widget.Button)
+			containerObj := obj.(*fyne.Container)
+			studentCell := containerObj.Objects[1].(*widget.Entry)
+			masterColumn := containerObj.Objects[3].(*widget.Entry)
+			removeBtn := containerObj.Objects[4].(*widget.Button)
 
 			mapping := a.markMappings[id]
 			studentCell.SetText(mapping.StudentCell)
@@ -485,8 +475,8 @@ func (a *App) validateColumnReference(colRef, fieldName string) {
 
 // File selection methods
 func (a *App) selectMasterFile() {
-	dialog.ShowFileOpen(func(reader fyne.URIReadCloser) {
-		if reader == nil {
+	dialog.ShowFileOpen(func(reader fyne.URIReadCloser, err error) {
+		if err != nil || reader == nil {
 			return
 		}
 		defer reader.Close()
@@ -497,8 +487,8 @@ func (a *App) selectMasterFile() {
 }
 
 func (a *App) selectStudentFolder() {
-	dialog.ShowFolderOpen(func(uri fyne.ListableURI) {
-		if uri == nil {
+	dialog.ShowFolderOpen(func(uri fyne.ListableURI, err error) {
+		if err != nil || uri == nil {
 			return
 		}
 
@@ -508,8 +498,8 @@ func (a *App) selectStudentFolder() {
 }
 
 func (a *App) selectOutputFolder() {
-	dialog.ShowFolderOpen(func(uri fyne.ListableURI) {
-		if uri == nil {
+	dialog.ShowFolderOpen(func(uri fyne.ListableURI, err error) {
+		if err != nil || uri == nil {
 			return
 		}
 
@@ -519,8 +509,8 @@ func (a *App) selectOutputFolder() {
 }
 
 func (a *App) selectBackupFolder() {
-	dialog.ShowFolderOpen(func(uri fyne.ListableURI) {
-		if uri == nil {
+	dialog.ShowFolderOpen(func(uri fyne.ListableURI, err error) {
+		if err != nil || uri == nil {
 			return
 		}
 

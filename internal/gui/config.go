@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
 
 	"mark-master-sheet/internal/config"
@@ -31,40 +32,40 @@ func (a *App) loadDefaultConfig() {
 
 // loadConfigFromFile loads configuration from a TOML file
 func (a *App) loadConfigFromFile() {
-	dialog.ShowFileOpen(func(reader fyne.URIReadCloser) {
-		if reader == nil {
+	dialog.ShowFileOpen(func(reader fyne.URIReadCloser, err error) {
+		if err != nil || reader == nil {
 			return
 		}
 		defer reader.Close()
-		
+
 		configPath := reader.URI().Path()
-		
+
 		cfg, err := config.LoadConfig(configPath)
 		if err != nil {
 			a.showError(fmt.Sprintf("Failed to load configuration: %v", err))
 			return
 		}
-		
+
 		a.applyConfigToUI(cfg)
 		a.updateStatus(fmt.Sprintf("Configuration loaded from %s", filepath.Base(configPath)))
-		
+
 	}, a.window)
 }
 
 // saveConfigToFile saves current configuration to a TOML file
 func (a *App) saveConfigToFile() {
-	dialog.ShowFileSave(func(writer fyne.URIWriteCloser) {
-		if writer == nil {
+	dialog.ShowFileSave(func(writer fyne.URIWriteCloser, err error) {
+		if err != nil || writer == nil {
 			return
 		}
 		defer writer.Close()
-		
+
 		cfg, err := a.buildConfigFromUI()
 		if err != nil {
 			a.showError(fmt.Sprintf("Configuration validation failed: %v", err))
 			return
 		}
-		
+
 		// Convert config to TOML and save
 		configPath := writer.URI().Path()
 		err = a.saveConfigToPath(cfg, configPath)
@@ -72,9 +73,9 @@ func (a *App) saveConfigToFile() {
 			a.showError(fmt.Sprintf("Failed to save configuration: %v", err))
 			return
 		}
-		
+
 		a.updateStatus(fmt.Sprintf("Configuration saved to %s", filepath.Base(configPath)))
-		
+
 	}, a.window)
 }
 

@@ -45,17 +45,19 @@ if [ $? -ne 0 ]; then
     echo ""
     echo "For now, you can use the CLI version: ./mark-master-sheet"
 else
+    echo "GUI build completed successfully!"
     echo "GUI Executable: mark-master-sheet-gui"
 fi
 
 echo ""
-echo "CLI build completed successfully!"
+echo "Build completed successfully!"
 echo "CLI Executable: mark-master-sheet"
+echo "GUI Executable: mark-master-sheet-gui"
 echo ""
 echo "Usage:"
 echo "  ./mark-master-sheet                    # CLI: Run with default config"
 echo "  ./mark-master-sheet -dry-run           # CLI: Test run without changes"
 echo "  ./mark-master-sheet -stats             # CLI: Show statistics"
 echo "  ./mark-master-sheet -config custom.toml # CLI: Use custom config"
-echo "  ./mark-master-sheet-gui                # GUI: Launch graphical interface (if built)"
+echo "  ./mark-master-sheet-gui                # GUI: Launch graphical interface"
 echo ""

@@ -48,18 +48,20 @@ if %errorlevel% neq 0 (
     echo.
     echo For now, you can use the CLI version: mark-master-sheet.exe
 ) else (
+    echo GUI build completed successfully!
     echo GUI Executable: mark-master-sheet-gui.exe
 )
 
 echo.
-echo CLI build completed successfully!
+echo Build completed successfully!
 echo CLI Executable: mark-master-sheet.exe
+echo GUI Executable: mark-master-sheet-gui.exe
 echo.
 echo Usage:
 echo   mark-master-sheet.exe                    # CLI: Run with default config
 echo   mark-master-sheet.exe -dry-run           # CLI: Test run without changes
 echo   mark-master-sheet.exe -stats             # CLI: Show statistics
 echo   mark-master-sheet.exe -config custom.toml # CLI: Use custom config
-echo   mark-master-sheet-gui.exe                # GUI: Launch graphical interface (if built)
+echo   mark-master-sheet-gui.exe                # GUI: Launch graphical interface
 echo.
 pause

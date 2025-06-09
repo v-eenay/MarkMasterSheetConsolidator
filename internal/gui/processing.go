@@ -6,8 +6,7 @@ import (
 	"os"
 	"time"
 
-	"fyne.io/fyne/v2/widget"
-
+	"mark-master-sheet/internal/config"
 	"mark-master-sheet/internal/logger"
 	"mark-master-sheet/internal/processor"
 )

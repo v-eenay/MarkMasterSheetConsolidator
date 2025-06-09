@@ -26,7 +26,16 @@ chmod +x build.sh && ./build.sh
 
 ### Usage
 
-**Command Line (Always Available):**
+**GUI (Recommended):**
+```bash
+# Windows
+mark-master-sheet-gui.exe
+
+# Linux/macOS
+./mark-master-sheet-gui
+```
+
+**Command Line:**
 ```bash
 # Windows
 mark-master-sheet.exe -dry-run    # Test run
@@ -36,17 +45,6 @@ mark-master-sheet.exe             # Process files
 ./mark-master-sheet -dry-run      # Test run
 ./mark-master-sheet               # Process files
 ```
-
-**GUI (If Build Succeeds):**
-```bash
-# Windows
-mark-master-sheet-gui.exe
-
-# Linux/macOS
-./mark-master-sheet-gui
-```
-
-*Note: GUI requires OpenGL/CGO dependencies. If GUI build fails, use the fully functional CLI version.*
 
 ## Configuration
 
