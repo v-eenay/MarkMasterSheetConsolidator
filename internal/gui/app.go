@@ -38,8 +38,10 @@ type App struct {
 	studentIDCellEntry    *widget.Entry
 	studentIDColumnEntry  *widget.Entry
 	
-	markMappingTable    *widget.List
-	markMappings        []MarkMapping
+	markMappingTable     *widget.List
+	markMappingContainer *fyne.Container
+	mappingStatsLabel    *widget.Label
+	markMappings         []MarkMapping
 	
 	enableBackupCheck   *widget.Check
 	skipInvalidCheck    *widget.Check
@@ -411,96 +413,20 @@ func (a *App) updateStatus(status string, progress ...float64) {
 	}
 }
 
-// createMarkMappingsTab creates the enhanced mark mappings configuration tab
+// createMarkMappingsTab creates the enhanced mark mappings configuration tab with card-based layout
 func (a *App) createMarkMappingsTab() *fyne.Container {
-	// Create header labels for the mapping table
-	headerContainer := container.NewHBox(
-		widget.NewLabel("Student Cell"),
-		widget.NewLabel(""),  // spacer
-		widget.NewLabel("Master Column"),
-		widget.NewLabel(""),  // spacer for remove button
-	)
+	// Create container for all mapping cards
+	a.markMappingContainer = container.NewVBox()
 
-	// Create enhanced list for mark mappings with better visibility
-	a.markMappingTable = widget.NewList(
-		func() int {
-			return len(a.markMappings)
-		},
-		func() fyne.CanvasObject {
-			// Create entry fields with better sizing
-			studentCell := widget.NewEntry()
-			studentCell.SetPlaceHolder("C6")
-			studentCell.Resize(fyne.NewSize(80, 32))
+	// Create the mappings display
+	a.refreshMarkMappingsDisplay()
 
-			masterColumn := widget.NewEntry()
-			masterColumn.SetPlaceHolder("I")
-			masterColumn.Resize(fyne.NewSize(80, 32))
-
-			// Create arrow label
-			arrowLabel := widget.NewLabel("->")
-			arrowLabel.Alignment = fyne.TextAlignCenter
-
-			// Create remove button
-			removeBtn := widget.NewButton("Remove", nil)
-			removeBtn.Importance = widget.DangerImportance
-			removeBtn.Resize(fyne.NewSize(80, 32))
-
-			// Create container with proper spacing and alignment
-			return container.NewBorder(
-				nil, nil, nil, nil,
-				container.NewHBox(
-					container.NewBorder(nil, nil, nil, nil, studentCell),
-					container.NewBorder(nil, nil, nil, nil, arrowLabel),
-					container.NewBorder(nil, nil, nil, nil, masterColumn),
-					container.NewBorder(nil, nil, nil, nil, removeBtn),
-				),
-			)
-		},
-		func(id widget.ListItemID, obj fyne.CanvasObject) {
-			if id >= len(a.markMappings) {
-				return
-			}
-
-			// Navigate to the actual container with entries
-			borderContainer := obj.(*fyne.Container)
-			hboxContainer := borderContainer.Objects[0].(*fyne.Container)
-
-			studentCellContainer := hboxContainer.Objects[0].(*fyne.Container)
-			studentCell := studentCellContainer.Objects[0].(*widget.Entry)
-
-			masterColumnContainer := hboxContainer.Objects[2].(*fyne.Container)
-			masterColumn := masterColumnContainer.Objects[0].(*widget.Entry)
-
-			removeBtnContainer := hboxContainer.Objects[3].(*fyne.Container)
-			removeBtn := removeBtnContainer.Objects[0].(*widget.Button)
-
-			mapping := a.markMappings[id]
-			studentCell.SetText(mapping.StudentCell)
-			masterColumn.SetText(mapping.MasterColumn)
-
-			// Update mapping when entries change with enhanced validation
-			studentCell.OnChanged = func(text string) {
-				if id < len(a.markMappings) {
-					a.markMappings[id].StudentCell = text
-					a.validateCellReference(text, "Student Cell")
-				}
-			}
-
-			masterColumn.OnChanged = func(text string) {
-				if id < len(a.markMappings) {
-					a.markMappings[id].MasterColumn = text
-					a.validateColumnReference(text, "Master Column")
-				}
-			}
-
-			removeBtn.OnTapped = func() {
-				a.removeMarkMapping(id)
-			}
-		},
-	)
+	// Create scrollable container for the mappings with better sizing
+	scrollContainer := container.NewScroll(a.markMappingContainer)
+	scrollContainer.SetMinSize(fyne.NewSize(700, 400))
 
 	// Enhanced buttons for managing mappings
-	addButton := widget.NewButton("Add Mapping", func() {
+	addButton := widget.NewButton("+ Add New Mapping", func() {
 		a.addMarkMapping()
 	})
 	addButton.Importance = widget.HighImportance
@@ -512,27 +438,25 @@ func (a *App) createMarkMappingsTab() *fyne.Container {
 
 	buttonContainer := container.NewHBox(addButton, resetButton)
 
-	// Create scrollable container for the mappings
-	scrollContainer := container.NewScroll(a.markMappingTable)
-	scrollContainer.SetMinSize(fyne.NewSize(600, 300))
+	// Add mapping statistics and validation info
+	a.mappingStatsLabel = createSecondaryLabel(fmt.Sprintf("Total mappings: %d | Validation: Checking...", len(a.markMappings)))
 
-	// Add mapping count info
-	mappingInfo := widget.NewLabel(fmt.Sprintf("Current mappings: %d", len(a.markMappings)))
-	mappingInfo.TextStyle = fyne.TextStyle{Italic: true}
+	// Instructions for users
+	instructionsLabel := createHelpText("Configure how marks from student files map to columns in the master sheet. Each mapping connects a cell in student files to a column in the master sheet.")
 
-	// Main container with proper layout
+	// Main container with proper layout and spacing
 	content := container.NewVBox(
-		headerContainer,
+		instructionsLabel,
 		widget.NewSeparator(),
 		scrollContainer,
 		widget.NewSeparator(),
-		mappingInfo,
+		a.mappingStatsLabel,
 		buttonContainer,
 	)
 
 	return container.NewVBox(
 		widget.NewCard("Mark Cell Mappings",
-			"Configure how student marks map to master sheet columns (Student Cell -> Master Column)",
+			"Configure Student Cell → Master Column relationships",
 			content),
 	)
 }
@@ -669,13 +593,110 @@ func (a *App) createLogsTab() *fyne.Container {
 	)
 }
 
+// refreshMarkMappingsDisplay recreates the mark mappings display with card-based layout
+func (a *App) refreshMarkMappingsDisplay() {
+	// Clear existing content
+	a.markMappingContainer.Objects = nil
+
+	// Create cards for each mapping
+	for i, mapping := range a.markMappings {
+		card := a.createMappingCard(i, mapping)
+		a.markMappingContainer.Add(card)
+	}
+
+	// Update statistics
+	if a.mappingStatsLabel != nil {
+		validCount := a.countValidMappings()
+		a.mappingStatsLabel.SetText(fmt.Sprintf("Total mappings: %d | Valid: %d | Invalid: %d",
+			len(a.markMappings), validCount, len(a.markMappings)-validCount))
+	}
+
+	// Refresh the container
+	a.markMappingContainer.Refresh()
+}
+
+// createMappingCard creates a card for a single mark mapping with enhanced layout
+func (a *App) createMappingCard(index int, mapping MarkMapping) *widget.Card {
+	// Create entry fields with proper sizing
+	studentCellEntry := widget.NewEntry()
+	studentCellEntry.SetText(mapping.StudentCell)
+	studentCellEntry.SetPlaceHolder("e.g., C6, D7")
+	studentCellEntry.Resize(fyne.NewSize(100, 32))
+
+	masterColumnEntry := widget.NewEntry()
+	masterColumnEntry.SetText(mapping.MasterColumn)
+	masterColumnEntry.SetPlaceHolder("e.g., I, J")
+	masterColumnEntry.Resize(fyne.NewSize(100, 32))
+
+	// Create validation indicators
+	studentValidation := widget.NewLabel("OK")
+	masterValidation := widget.NewLabel("OK")
+
+	// Create remove button
+	removeButton := widget.NewButton("Remove", func() {
+		a.removeMarkMapping(index)
+	})
+	removeButton.Importance = widget.DangerImportance
+
+	// Set up change handlers with validation
+	studentCellEntry.OnChanged = func(text string) {
+		if index < len(a.markMappings) {
+			a.markMappings[index].StudentCell = text
+			if a.isValidCellReference(text) {
+				studentValidation.SetText("OK")
+			} else {
+				studentValidation.SetText("ERR")
+			}
+			a.updateMappingStats()
+		}
+	}
+
+	masterColumnEntry.OnChanged = func(text string) {
+		if index < len(a.markMappings) {
+			a.markMappings[index].MasterColumn = text
+			if a.isValidColumnReference(text) {
+				masterValidation.SetText("OK")
+			} else {
+				masterValidation.SetText("ERR")
+			}
+			a.updateMappingStats()
+		}
+	}
+
+	// Create the mapping layout with better visual organization
+	mappingContent := container.NewHBox(
+		container.NewVBox(
+			createPrimaryLabel("Student Cell:"),
+			container.NewHBox(studentCellEntry, studentValidation),
+		),
+		widget.NewSeparator(),
+		createPrimaryLabel("→"),
+		widget.NewSeparator(),
+		container.NewVBox(
+			createPrimaryLabel("Master Column:"),
+			container.NewHBox(masterColumnEntry, masterValidation),
+		),
+		widget.NewSeparator(),
+		container.NewVBox(
+			createPrimaryLabel("Actions:"),
+			removeButton,
+		),
+	)
+
+	// Create card with mapping number
+	cardTitle := fmt.Sprintf("Mapping %d", index+1)
+	cardSubtitle := "Student file cell → Master sheet column"
+
+	return widget.NewCard(cardTitle, cardSubtitle, mappingContent)
+}
+
 // addMarkMapping adds a new mark mapping row
 func (a *App) addMarkMapping() {
 	a.markMappings = append(a.markMappings, MarkMapping{
 		StudentCell:  "",
 		MasterColumn: "",
 	})
-	a.markMappingTable.Refresh()
+	a.refreshMarkMappingsDisplay()
 	a.updateStatus(fmt.Sprintf("Added new mapping. Total: %d mappings", len(a.markMappings)))
 }
 
@@ -701,7 +722,7 @@ func (a *App) exportLogs() {
 func (a *App) removeMarkMapping(index int) {
 	if index >= 0 && index < len(a.markMappings) {
 		a.markMappings = append(a.markMappings[:index], a.markMappings[index+1:]...)
-		a.markMappingTable.Refresh()
+		a.refreshMarkMappingsDisplay()
 		a.updateStatus(fmt.Sprintf("Removed mapping. Total: %d mappings", len(a.markMappings)))
 	}
 }
@@ -709,8 +730,75 @@ func (a *App) removeMarkMapping(index int) {
 // resetMarkMappings resets mark mappings to default values
 func (a *App) resetMarkMappings() {
 	a.markMappings = getDefaultMarkMappings()
-	a.markMappingTable.Refresh()
+	a.refreshMarkMappingsDisplay()
 	a.updateStatus(fmt.Sprintf("Reset to default mappings. Total: %d mappings", len(a.markMappings)))
+}
+
+// isValidCellReference checks if a cell reference is valid (e.g., A1, B2, AA10)
+func (a *App) isValidCellReference(cellRef string) bool {
+	if cellRef == "" {
+		return false
+	}
+
+	if len(cellRef) < 2 {
+		return false
+	}
+
+	// Check if it starts with letters and ends with numbers
+	i := 0
+	for i < len(cellRef) && cellRef[i] >= 'A' && cellRef[i] <= 'Z' {
+		i++
+	}
+	if i == 0 || i == len(cellRef) {
+		return false
+	}
+
+	for j := i; j < len(cellRef); j++ {
+		if cellRef[j] < '0' || cellRef[j] > '9' {
+			return false
+		}
+	}
+
+	return true
+}
+
+// isValidColumnReference checks if a column reference is valid (e.g., A, B, AA, AB)
+func (a *App) isValidColumnReference(colRef string) bool {
+	if colRef == "" {
+		return false
+	}
+
+	for _, char := range colRef {
+		if char < 'A' || char > 'Z' {
+			return false
+		}
+	}
+
+	return true
+}
+
+// countValidMappings counts the number of valid mappings
+func (a *App) countValidMappings() int {
+	count := 0
+	for _, mapping := range a.markMappings {
+		if a.isValidCellReference(mapping.StudentCell) && a.isValidColumnReference(mapping.MasterColumn) {
+			count++
+		}
+	}
+	return count
+}
+
+// updateMappingStats updates the mapping statistics label
+func (a *App) updateMappingStats() {
+	if a.mappingStatsLabel != nil {
+		validCount := a.countValidMappings()
+		status := "All Valid"
+		if validCount < len(a.markMappings) {
+			status = fmt.Sprintf("%d Invalid", len(a.markMappings)-validCount)
+		}
+		a.mappingStatsLabel.SetText(fmt.Sprintf("Total mappings: %d | Valid: %d | Status: %s",
+			len(a.markMappings), validCount, status))
+	}
 }
 
 // validateColumnReference validates Excel column reference format

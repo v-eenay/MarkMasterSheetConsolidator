@@ -66,8 +66,8 @@ func TestSetupUI(t *testing.T) {
 	if app.studentFolderEntry == nil {
 		t.Error("setupUI() should initialize studentFolderEntry")
 	}
-	if app.markMappingTable == nil {
-		t.Error("setupUI() should initialize markMappingTable")
+	if app.markMappingContainer == nil {
+		t.Error("setupUI() should initialize markMappingContainer")
 	}
 	if app.progressBar == nil {
 		t.Error("setupUI() should initialize progressBar")

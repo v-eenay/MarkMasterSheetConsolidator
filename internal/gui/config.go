@@ -112,7 +112,7 @@ func (a *App) applyConfigToUI(cfg *config.Config) {
 				MasterColumn: cfg.Excel.MasterColumns[i],
 			}
 		}
-		a.markMappingTable.Refresh()
+		a.refreshMarkMappingsDisplay()
 	}
 }
 
