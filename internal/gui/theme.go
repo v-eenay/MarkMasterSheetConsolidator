@@ -22,11 +22,11 @@ func (m ModernLightTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVari
 	case theme.ColorNameBackground:
 		return color.RGBA{R: 255, G: 255, B: 255, A: 255} // Pure white background #FFFFFF
 
-	// Text colors - WCAG AAA compliant (7:1+ contrast ratio)
+	// Text colors - Maximum contrast with pure black
 	case theme.ColorNameForeground:
-		return color.RGBA{R: 33, G: 37, B: 41, A: 255} // Primary text #212529 - 15.8:1 contrast
+		return color.RGBA{R: 0, G: 0, B: 0, A: 255} // Pure black text #000000 - 21:1 contrast
 	case theme.ColorNameDisabled:
-		return color.RGBA{R: 108, G: 117, B: 125, A: 255} // Muted text #6C757D - 7.0:1 contrast
+		return color.RGBA{R: 64, G: 64, B: 64, A: 255} // Dark gray for disabled #404040 - 9.7:1 contrast
 
 	// Button colors
 	case theme.ColorNameButton:
@@ -52,7 +52,7 @@ func (m ModernLightTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVari
 	case theme.ColorNameInputBorder:
 		return color.RGBA{R: 206, G: 212, B: 218, A: 255} // Input border #CED4DA
 	case theme.ColorNamePlaceHolder:
-		return color.RGBA{R: 108, G: 117, B: 125, A: 255} // Placeholder text #6C757D
+		return color.RGBA{R: 96, G: 96, B: 96, A: 255} // Dark placeholder text #606060
 
 	// Selection colors
 	case theme.ColorNameSelection:
@@ -119,13 +119,13 @@ func (a *App) applyCustomTheme() {
 	a.fyneApp.Settings().SetTheme(&ModernLightTheme{})
 }
 
-// High contrast color constants for WCAG AAA compliance
+// Maximum contrast color constants with pure black text
 var (
-	// Text colors (high contrast on white background)
-	PrimaryTextColor   = color.RGBA{R: 33,  G: 37,  B: 41,  A: 255} // #212529 - 15.8:1 contrast
-	SecondaryTextColor = color.RGBA{R: 73,  G: 80,  B: 87,  A: 255} // #495057 - 11.9:1 contrast
-	MutedTextColor     = color.RGBA{R: 108, G: 117, B: 125, A: 255} // #6C757D - 7.0:1 contrast
-	LabelTextColor     = color.RGBA{R: 52,  G: 58,  B: 64,  A: 255} // #343A40 - 13.6:1 contrast
+	// Text colors (maximum contrast on white background)
+	PrimaryTextColor   = color.RGBA{R: 0,   G: 0,   B: 0,   A: 255} // #000000 - 21:1 contrast (pure black)
+	SecondaryTextColor = color.RGBA{R: 0,   G: 0,   B: 0,   A: 255} // #000000 - 21:1 contrast (pure black)
+	MutedTextColor     = color.RGBA{R: 64,  G: 64,  B: 64,  A: 255} // #404040 - 9.7:1 contrast (dark gray)
+	LabelTextColor     = color.RGBA{R: 0,   G: 0,   B: 0,   A: 255} // #000000 - 21:1 contrast (pure black)
 
 	// Background colors
 	PrimaryBgColor     = color.RGBA{R: 255, G: 255, B: 255, A: 255} // #FFFFFF - Pure white
