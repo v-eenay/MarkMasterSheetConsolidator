@@ -150,15 +150,14 @@ func (a *App) setupUI() {
 
 // createHeader creates a modern header with application branding
 func (a *App) createHeader() *fyne.Container {
-	// Application title with modern styling
-	titleLabel := widget.NewLabel("Mark Master Sheet Consolidator")
-	titleLabel.TextStyle = fyne.TextStyle{Bold: true}
+	// Application title with pure black text styling
+	titleLabel := createSectionHeader("Mark Master Sheet Consolidator")
 
-	// Subtitle with version info
-	subtitleLabel := widget.NewLabel("Professional Excel Processing Tool v1.0.0")
+	// Subtitle with version info using pure black text
+	subtitleLabel := createPrimaryLabel("Professional Excel Processing Tool v1.0.0")
 
-	// Author info
-	authorLabel := widget.NewLabel("by Vinay Koirala")
+	// Author info with pure black text
+	authorLabel := createSecondaryLabel("by Vinay Koirala")
 
 	// Create header layout
 	titleContainer := container.NewVBox(
@@ -261,9 +260,8 @@ func (a *App) createFilePathsTab() *fyne.Container {
 		},
 	}
 
-	// Add help text
-	helpText := widget.NewLabel("* Required fields. Configure the file paths for processing student marks.")
-	helpText.TextStyle = fyne.TextStyle{Italic: true}
+	// Add help text with pure black text
+	helpText := createHelpText("* Required fields. Configure the file paths for processing student marks.")
 
 	return container.NewVBox(
 		widget.NewCard("File and Folder Configuration",
@@ -310,9 +308,8 @@ func (a *App) createExcelSettingsTab() *fyne.Container {
 		},
 	}
 
-	// Add configuration examples
-	exampleText := widget.NewLabel("Examples: Cell references like B2, C3 | Column references like A, B, AA")
-	exampleText.TextStyle = fyne.TextStyle{Italic: true}
+	// Add configuration examples with pure black text
+	exampleText := createHelpText("Examples: Cell references like B2, C3 | Column references like A, B, AA")
 
 	return container.NewVBox(
 		widget.NewCard("Excel Worksheet Configuration",
@@ -326,12 +323,10 @@ func (a *App) createStatusBar() *fyne.Container {
 	a.progressBar = widget.NewProgressBar()
 	a.progressBar.Hide()
 
-	a.statusLabel = widget.NewLabel("Ready")
-	a.statusLabel.TextStyle = fyne.TextStyle{Bold: true}
+	a.statusLabel = createStatusLabel("Ready", "ready")
 
-	// Add version and author info to status bar
-	versionLabel := widget.NewLabel("v1.0.0 | © Vinay Koirala")
-	versionLabel.TextStyle = fyne.TextStyle{Italic: true}
+	// Add version and author info to status bar with pure black text
+	versionLabel := createSecondaryLabel("v1.0.0 | © Vinay Koirala")
 
 	return container.NewBorder(
 		nil, nil,
@@ -517,25 +512,24 @@ func (a *App) createProcessingTab() *fyne.Container {
 		},
 	}
 
-	// Add help text for options
-	optionsHelp := widget.NewLabel("Configure how the application handles processing and errors")
-	optionsHelp.TextStyle = fyne.TextStyle{Italic: true}
+	// Add help text for options with pure black text
+	optionsHelp := createHelpText("Configure how the application handles processing and errors")
 
 	processingButtons := container.NewHBox(dryRunButton, processButton, stopButton)
 	configButtons := container.NewHBox(loadConfigButton, saveConfigButton)
 
-	// Processing controls section
+	// Processing controls section with pure black text
 	processingSection := container.NewVBox(
-		widget.NewLabel("Processing Controls:"),
+		createSectionHeader("Processing Controls:"),
 		processingButtons,
-		widget.NewLabel("Use 'Dry Run' to test your configuration before processing actual files."),
+		createHelpText("Use 'Dry Run' to test your configuration before processing actual files."),
 	)
 
-	// Configuration management section
+	// Configuration management section with pure black text
 	configSection := container.NewVBox(
-		widget.NewLabel("Configuration Management:"),
+		createSectionHeader("Configuration Management:"),
 		configButtons,
-		widget.NewLabel("Save your current settings or load a previously saved configuration."),
+		createHelpText("Save your current settings or load a previously saved configuration."),
 	)
 
 	return container.NewVBox(
@@ -577,9 +571,8 @@ func (a *App) createLogsTab() *fyne.Container {
 	logScroll := container.NewScroll(a.logOutput)
 	logScroll.SetMinSize(fyne.NewSize(800, 400))
 
-	// Add log statistics
-	logStats := widget.NewLabel("Ready to process files...")
-	logStats.TextStyle = fyne.TextStyle{Italic: true}
+	// Add log statistics with pure black text
+	logStats := createSecondaryLabel("Ready to process files...")
 
 	return container.NewVBox(
 		widget.NewCard("Processing Logs",
