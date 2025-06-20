@@ -55,3 +55,4 @@ Copy `config.sample.toml` to `config.toml` and edit paths to match your files. T
 **All rights reserved to Vinay Koirala**
 
 This software is proprietary and confidential. For licensing inquiries, contact koiralavinay@gmail.com.
+
